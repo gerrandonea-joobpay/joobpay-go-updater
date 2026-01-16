@@ -9,7 +9,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/joobpay/joobpay-go-updater/internal/utils"
+	"github.com/gerrandonea-joobpay/joobpay-go-updater/internal/utils"
 )
 
 // ApplyUpdate aplica la actualización descargada

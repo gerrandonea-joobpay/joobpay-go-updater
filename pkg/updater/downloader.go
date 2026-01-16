@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/joobpay/joobpay-go-updater/internal/utils"
+	"github.com/gerrandonea-joobpay/joobpay-go-updater/internal/utils"
 )
 
 // DownloadUpdate descarga la actualización y valida su integridad

@@ -1,4 +1,4 @@
-module github.com/joobpay/joobpay-go-updater
+module github.com/gerrandonea-joobpay/joobpay-go-updater
 
 go 1.21
 

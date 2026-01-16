@@ -13,7 +13,7 @@ Sistema de actualización para macOS Application Bundles (.app) en Go.
 ## Instalación
 
 ```bash
-go get github.com/joobpay/joobpay-go-updater
+go get github.com/gerrandonea-joobpay/joobpay-go-updater
 ```
 
 ## CLI Builder
@@ -22,7 +22,7 @@ Herramienta para empaquetar y preparar actualizaciones:
 
 ```bash
 # Instalar CLI
-go install github.com/joobpay/joobpay-go-updater/cmd/joobpay-updater-cli@latest
+go install github.com/gerrandonea-joobpay/joobpay-go-updater/cmd/joobpay-updater-cli@latest
 
 # Uso básico (sin notarización)
 joobpay-updater-cli \
@@ -72,7 +72,7 @@ import (
     "fmt"
     "os"
     
-    "github.com/joobpay/joobpay-go-updater/pkg/updater"
+    "github.com/gerrandonea-joobpay/joobpay-go-updater/pkg/updater"
 )
 
 func main() {
