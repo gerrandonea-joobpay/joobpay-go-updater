@@ -22,12 +22,10 @@ La herramienta de línea de comandos debe permitir generar los artefactos de dis
 **Proceso de Build:**
 1.  **Detección de Arquitectura:** Determinar si el target es `arm64` o `amd64`.
 2.  **Manejo de Notarización (Si `--keychain-profile` no está vacío):**
-    * Comprimir el bundle actual en un zip temporal con sufijo: `{OutputName}-no-notarized.zip`.
+    * Comprimir el bundle actual en un zip con sufijo: `{OutputName}.zip`.
     * Ejecutar envío a Apple: 
         `xcrun notarytool submit {OutputName}-no-notarized.zip --keychain-profile {Profile} --wait`
     * Si la notarización falla: Abortar y retornar error.
-    * Si es exitosa: Ejecutar *Staple* sobre el bundle original (`.app`):
-        `xcrun stapler staple {AppPath}.app`
 3.  **Empaquetado Final:**
     * Comprimir el bundle (`.app`) final (ya estampado si aplicó) en un archivo `.zip`.
     * Nombre del archivo: `{OutputName}.zip`.
@@ -38,7 +36,6 @@ La herramienta de línea de comandos debe permitir generar los artefactos de dis
         {
           "version": "1.0.1",
           "checksum": "a3b9c...", 
-          "url": "..." (placeholder o pasado por flag)
         }
         ```
 

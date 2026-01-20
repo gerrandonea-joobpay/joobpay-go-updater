@@ -47,13 +47,23 @@ func (u *Updater) ApplyUpdate() error {
 
 	// Obtener información del proceso actual
 	pid := os.Getpid()
-	currentAppPath := u.config.AppPath
+	currentAppPath, err := getCurrentAppPath()
+	if err != nil {
+		return fmt.Errorf("error obteniendo ruta de la app actual: %w", err)
+	}
 
 	// Generar ruta para backup
 	backupPath := filepath.Join(u.config.DownloadPath, fmt.Sprintf("backup-%d.app", time.Now().Unix()))
 
 	// Generar script
-	script := generateUpdateScript(pid, newAppPath, currentAppPath, backupPath, zipPath)
+	script := generateUpdateScript(
+		pid,
+		newAppPath,
+		currentAppPath,
+		backupPath,
+		zipPath,
+		u.config.StartAutomatically,
+	)
 
 	// Escribir script a archivo temporal
 	scriptPath := filepath.Join(u.config.DownloadPath, "update-script.sh")
@@ -91,11 +101,45 @@ func (u *Updater) validateForApply() error {
 	}
 
 	// Verificar que existe la app actual
-	if _, err := os.Stat(u.config.AppPath); os.IsNotExist(err) {
-		return fmt.Errorf("aplicación actual no existe: %s", u.config.AppPath)
+	currentAppPath, err := getCurrentAppPath()
+	if err != nil {
+		return fmt.Errorf("error obteniendo ruta de la app actual: %w", err)
+	}
+	if _, err := os.Stat(currentAppPath); os.IsNotExist(err) {
+		return fmt.Errorf("aplicación actual no existe: %s", currentAppPath)
 	}
 
 	return nil
+}
+
+// getCurrentAppPath busca el directorio .app ascendiendo desde el ejecutable
+func getCurrentAppPath() (string, error) {
+	exePath, err := os.Executable()
+	if err != nil {
+		return "", err
+	}
+
+	// Resolver symlinks por si acaso
+	exePath, err = filepath.EvalSymlinks(exePath)
+	if err != nil {
+		return "", err
+	}
+
+	// Recorrer hacia arriba buscando el directorio .app
+	path := exePath
+	for {
+		if strings.HasSuffix(path, ".app") {
+			return path, nil
+		}
+		parent := filepath.Dir(path)
+		if parent == path || parent == "." {
+			break
+		}
+		path = parent
+	}
+
+	// Si no encontramos un .app, devolvemos el directorio del ejecutable (fallback)
+	return filepath.Dir(exePath), nil
 }
 
 // findAppBundle busca el bundle .app dentro de un directorio
@@ -122,8 +166,8 @@ func findAppBundle(searchPath string) (string, error) {
 }
 
 // generateUpdateScript genera el script de actualización con las variables inyectadas
-func generateUpdateScript(pid int, newAppPath, currentAppPath, backupPath, zipPath string) string {
-	script := updateScriptTemplate
+func generateUpdateScript(pid int, newAppPath, currentAppPath, backupPath, zipPath string, startAutomatically bool) string {
+	script := getScript(startAutomatically)
 
 	// Reemplazar variables
 	script = strings.ReplaceAll(script, "{{PID}}", fmt.Sprintf("%d", pid))

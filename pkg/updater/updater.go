@@ -17,16 +17,15 @@ type Config struct {
 	SourceURL string
 
 	// ZipFileName es el nombre del archivo ZIP a descargar
-	// Ejemplo: "myapp.zip"
+	// Ejemplo: "myapp.zip"``
 	ZipFileName string
 
 	// DownloadPath es la ruta local para descargas temporales
 	// Ejemplo: "~/Library/Caches/myapp/updates/"
 	DownloadPath string
 
-	// AppPath es la ruta al bundle .app actual
-	// Ejemplo: "/Applications/MyApp.app"
-	AppPath string
+	// StartAutomatically es un flag que indica si se debe iniciar la aplicación automáticamente
+	StartAutomatically bool
 }
 
 // Manifest representa la estructura del archivo JSON de manifiesto

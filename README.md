@@ -82,7 +82,6 @@ func main() {
         SourceURL:      "https://my-bucket.s3.amazonaws.com/updates/",
         ZipFileName:    "myapp.zip",
         DownloadPath:   "~/Library/Caches/myapp/updates/",
-        AppPath:        "/Applications/MyApp.app",
     })
 
     // Verificar actualizaciones
