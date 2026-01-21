@@ -96,7 +96,7 @@ func getScript(startAutomatically bool, afterUpdateCommand, beforeUpdateCommand 
 
 
         log "=== Actualización completada exitosamente ==="
-    ` + afterUpdateCommand
+    ` + beforeUpdateCommand
 
     if !startAutomatically {
         return updateScriptTemplate
@@ -110,6 +110,6 @@ func getScript(startAutomatically bool, afterUpdateCommand, beforeUpdateCommand 
     sleep 1
     open -n "$CURRENT_APP_PATH"
     `
-    
+
     return updateScriptTemplate
 }
