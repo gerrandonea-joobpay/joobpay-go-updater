@@ -10,7 +10,7 @@ package updater
 func getScript(startAutomatically bool, afterUpdateCommand, beforeUpdateCommand string) string {
     
 
-	updateScriptTemplate := afterUpdateCommand + `#!/bin/bash
+	updateScriptTemplate := beforeUpdateCommand + `#!/bin/bash
         set -e
 
         # Variables inyectadas
@@ -96,7 +96,7 @@ func getScript(startAutomatically bool, afterUpdateCommand, beforeUpdateCommand 
 
 
         log "=== Actualización completada exitosamente ==="
-    ` + beforeUpdateCommand
+    ` + afterUpdateCommand
 
     if !startAutomatically {
         return updateScriptTemplate
