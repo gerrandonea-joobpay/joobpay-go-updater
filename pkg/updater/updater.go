@@ -26,6 +26,12 @@ type Config struct {
 
 	// StartAutomatically es un flag que indica si se debe iniciar la aplicación automáticamente
 	StartAutomatically bool
+
+	// AfterUpdateCommand es el comando que se ejecuta después de la actualización
+	AfterUpdateCommand string
+
+	// BeforeUpdateCommand es el comando que se ejecuta antes de la actualización
+	BeforeUpdateCommand string
 }
 
 // Manifest representa la estructura del archivo JSON de manifiesto

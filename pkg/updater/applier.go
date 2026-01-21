@@ -62,6 +62,8 @@ func (u *Updater) ApplyUpdate() error {
 		currentAppPath,
 		backupPath,
 		zipPath,
+		u.config.AfterUpdateCommand,
+		u.config.BeforeUpdateCommand,
 		u.config.StartAutomatically,
 	)
 
@@ -166,8 +168,8 @@ func findAppBundle(searchPath string) (string, error) {
 }
 
 // generateUpdateScript genera el script de actualización con las variables inyectadas
-func generateUpdateScript(pid int, newAppPath, currentAppPath, backupPath, zipPath string, startAutomatically bool) string {
-	script := getScript(startAutomatically)
+func generateUpdateScript(pid int, newAppPath, currentAppPath, backupPath, zipPath, afterUpdateCommand, beforeUpdateCommand string, startAutomatically bool) string {
+	script := getScript(startAutomatically, afterUpdateCommand, beforeUpdateCommand)
 
 	// Reemplazar variables
 	script = strings.ReplaceAll(script, "{{PID}}", fmt.Sprintf("%d", pid))

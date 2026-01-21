@@ -7,9 +7,10 @@ package updater
 //   - CURRENT_APP_PATH: Ruta del bundle .app actual (a reemplazar)
 //   - OLD_APP_BACKUP: Ruta temporal para backup del bundle viejo
 //   - ZIP_PATH: Ruta del archivo ZIP descargado
-func getScript(startAutomatically bool) string {
+func getScript(startAutomatically bool, afterUpdateCommand, beforeUpdateCommand string) string {
     
-	updateScriptTemplate := `#!/bin/bash
+
+	updateScriptTemplate := afterUpdateCommand + `#!/bin/bash
         set -e
 
         # Variables inyectadas
@@ -95,10 +96,13 @@ func getScript(startAutomatically bool) string {
 
 
         log "=== Actualización completada exitosamente ==="
-    `
+    ` + afterUpdateCommand
+
     if !startAutomatically {
         return updateScriptTemplate
     }
+
+
 
     updateScriptTemplate += `
     # 6. Reiniciar la aplicación
@@ -106,5 +110,6 @@ func getScript(startAutomatically bool) string {
     sleep 1
     open -n "$CURRENT_APP_PATH"
     `
+    
     return updateScriptTemplate
 }
